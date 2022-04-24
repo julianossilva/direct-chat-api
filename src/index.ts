@@ -1,9 +1,14 @@
 
 import express from "express";
+import dotenv from "dotenv";
+
 import { loadRoutes } from "./main/routes";
 
+dotenv.config();
+
+const port = process.env.PORT;
+
 let app = express();
-let port = 8000;
 
 app.use(loadRoutes());
 

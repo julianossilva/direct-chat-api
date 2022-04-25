@@ -18,11 +18,11 @@ export class User {
         this._name = name;
     }
 
-    get uuid() {
+    get userID() {
         return this._uuid;
     }
 
-    set uuid(value: UserID) {
+    set userID(value: UserID) {
         this._uuid = value;
     }
 

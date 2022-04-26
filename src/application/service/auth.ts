@@ -22,7 +22,7 @@ export type LoginDTO = {
 export class AuthService {
 
     constructor(
-        private hashGenerator: HashGeneratorBcrypt,
+        private hashGenerator: HashGenerator,
         private uuidGenerator: UUIDGenerator,
         private userRepository: UserRepository,
     ) { }

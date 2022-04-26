@@ -4,7 +4,7 @@ import { User } from "../../domain/model/user";
 import { UserID } from "../../domain/model/user-id";
 import { Username } from "../../domain/model/username";
 import { UserRepository } from "../../domain/repository/user";
-import { HashGeneratorBcrypt } from "../hash-generator-bcript";
+import { HashGenerator } from "../hash-generator";
 import { Session } from "../session-manager";
 import { UUIDGenerator } from "../uuid-generator";
 

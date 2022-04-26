@@ -12,8 +12,4 @@ export class PasswordHash {
     equal(other: PasswordHash) {
         return this._passwordHash == other._passwordHash;
     }
-
-    static create(passwordHash: string){
-        return new PasswordHash(passwordHash);
-    }
 }

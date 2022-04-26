@@ -49,8 +49,4 @@ export class User {
     set name(value: Name) {
         this._name = value;
     }
-
-    static create(userID: UserID, username: Username, passwordHash: PasswordHash, name: Name) {
-        return new User(userID, username, passwordHash, name);
-    }
 }

@@ -13,8 +13,4 @@ export class Username {
     equal(other: Username) {
         return this._username == other._username;
     }
-
-    static create(username: string) {
-        return new Username(username);
-    }
 }

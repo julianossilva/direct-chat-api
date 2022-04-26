@@ -13,8 +13,4 @@ export class UserID {
     equal(other: UserID) {
         return this._uuid == other._uuid;
     }
-
-    static create(userID: string) {
-        return new UserID(userID);
-    }
 }

@@ -14,7 +14,7 @@ export class Name {
         return this._name == other._name;
     }
 
-    static create(name: string) {
-        return new Name(name);
-    }
+    validate() {
+        return true;
+    } 
 }

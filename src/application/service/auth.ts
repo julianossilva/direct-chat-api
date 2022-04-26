@@ -27,56 +27,71 @@ export class AuthService {
         private userRepository: UserRepository,
     ) { }
 
-
     async signup(userData: NewUserDTO): Promise<void> {
-        try {
-            let username = Username.create(userData.username);
-            let name = Name.create(userData.name);
-            let passwordHash = PasswordHash.create(await this.hashGenerator.generate(userData.password));
-            let userID = UserID.create(this.uuidGenerator.generate());
 
-            let user = User.create(
-                userID,
-                username,
-                passwordHash,
-                name,
-            );
+        let username = new Username(userData.username);
+        let name = new Name(userData.name);
+        let passwordHash = new PasswordHash(await this.hashGenerator.generate(userData.password));
+        let userID = new UserID(this.uuidGenerator.generate());
 
-            await this.userRepository.create(user);
-        } catch (error) {
-            throw error;
-        }
+        let user = new User(
+            userID,
+            username,
+            passwordHash,
+            name,
+        );
+
+        await this.userRepository.create(user);
     }
 
     async signin(loginData: LoginDTO, session: Session): Promise<void> {
-        try {
-            if (await session.isStarted()) {
-                throw new Error("");
-            }
-
-            let username = Username.create(loginData.username);
-            let user = await this.userRepository.findByUsername(username);
-
-            if (user == null) {
-                throw new Error("");
-            }
-
-            if (!this.hashGenerator.verify(loginData.password, user.passwordHash.passwordHash)) {
-                throw new Error("");
-            }
-
-            session.start(user);
-
-        } catch (error) {
-            throw error;
+        if (await session.isStarted()) {
+            throw new UserAlreadyAuthenticatedError();
         }
+
+        let username = new Username(loginData.username);
+        let user = await this.userRepository.findByUsername(username);
+
+        if (user == null) {
+            throw new UserNotFoundError();
+        }
+
+        if (!this.hashGenerator.verify(loginData.password, user.passwordHash.passwordHash)) {
+            throw new WrongPasswordError();
+        }
+
+        session.start(user);
     }
 
     async signout(session: Session): Promise<void> {
-        try {
-            session.close();
-        } catch (error) {
-            throw error;
+        if (!await session.isStarted()) {
+            throw new UnauthenticatedUserError();
         }
+
+        session.close();
+    }
+}
+
+export class UnauthenticatedUserError extends Error {
+    constructor() {
+        super("User unauthemticated.");
+    }
+}
+
+export class UserAlreadyAuthenticatedError extends Error {
+    constructor() {
+        super("User already authenticated.");
+    }
+}
+
+export class UserNotFoundError extends Error {
+    constructor() {
+        super("User not funded.");
+    }
+}
+
+export class WrongPasswordError extends Error {
+    constructor() {
+        super("Wrong password.");
     }
 }

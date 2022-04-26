@@ -1,5 +1,4 @@
 export class Username {
-
     private _username: string;
 
     constructor(username: string) {

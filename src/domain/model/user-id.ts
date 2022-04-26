@@ -1,4 +1,3 @@
-
 export class UserID {
     private _uuid: string;
 
@@ -6,7 +5,7 @@ export class UserID {
         this._uuid = uuid;
     }
 
-    get uuid(){
+    get uuid() {
         return this._uuid;
     }
 

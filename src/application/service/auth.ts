@@ -9,37 +9,32 @@ import { Session } from "../session-manager";
 import { UUIDGenerator } from "../uuid-generator";
 
 export type NewUserDTO = {
-    username: string,
-    password: string,
-    name: string,
-}
+    username: string;
+    password: string;
+    name: string;
+};
 
 export type LoginDTO = {
-    username: string,
-    password: string,
-}
+    username: string;
+    password: string;
+};
 
 export class AuthService {
-
     constructor(
         private hashGenerator: HashGenerator,
         private uuidGenerator: UUIDGenerator,
-        private userRepository: UserRepository,
-    ) { }
+        private userRepository: UserRepository
+    ) {}
 
     async signup(userData: NewUserDTO): Promise<void> {
-
         let username = new Username(userData.username);
         let name = new Name(userData.name);
-        let passwordHash = new PasswordHash(await this.hashGenerator.generate(userData.password));
+        let passwordHash = new PasswordHash(
+            await this.hashGenerator.generate(userData.password)
+        );
         let userID = new UserID(this.uuidGenerator.generate());
 
-        let user = new User(
-            userID,
-            username,
-            passwordHash,
-            name,
-        );
+        let user = new User(userID, username, passwordHash, name);
 
         await this.userRepository.create(user);
     }
@@ -56,7 +51,12 @@ export class AuthService {
             throw new UserNotFoundError();
         }
 
-        if (!this.hashGenerator.verify(loginData.password, user.passwordHash.passwordHash)) {
+        if (
+            !this.hashGenerator.verify(
+                loginData.password,
+                user.passwordHash.passwordHash
+            )
+        ) {
             throw new WrongPasswordError();
         }
 
@@ -64,7 +64,7 @@ export class AuthService {
     }
 
     async signout(session: Session): Promise<void> {
-        if (!await session.isStarted()) {
+        if (!(await session.isStarted())) {
             throw new UnauthenticatedUserError();
         }
 

@@ -1,12 +1,11 @@
-import { Router } from 'express';
+import { Router } from "express";
 
 export function loadRoutes() {
-    
     let router = Router();
 
     router.get("/", (req, res) => {
-        res.send("Hello World!")
-    })
+        res.send("Hello World!");
+    });
 
     return router;
 }

@@ -1,4 +1,3 @@
-
 import express from "express";
 import dotenv from "dotenv";
 
@@ -13,5 +12,5 @@ let app = express();
 app.use(loadRoutes());
 
 app.listen(port, () => {
-    console.log(`App listening on port ${port}`)
+    console.log(`App listening on port ${port}`);
 });

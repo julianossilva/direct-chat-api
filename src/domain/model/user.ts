@@ -3,15 +3,18 @@ import { PasswordHash } from "./password-hash";
 import { UserID } from "./user-id";
 import { Username } from "./username";
 
-
 export class User {
-
     private _uuid: UserID;
     private _username: Username;
     private _passwordHash: PasswordHash;
     private _name: Name;
 
-    constructor(uuid: UserID, username: Username, passwordHash: PasswordHash, name: Name) {
+    constructor(
+        uuid: UserID,
+        username: Username,
+        passwordHash: PasswordHash,
+        name: Name
+    ) {
         this._uuid = uuid;
         this._username = username;
         this._passwordHash = passwordHash;

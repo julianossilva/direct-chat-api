@@ -1,4 +1,3 @@
-
 export class Name {
     private _name: string;
 
@@ -16,5 +15,5 @@ export class Name {
 
     validate() {
         return true;
-    } 
+    }
 }

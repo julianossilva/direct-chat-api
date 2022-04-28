@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "tsc && node ./build/index.js",
-    "test": "jest",
+    "test": "tsc && jest",
     "fmt": "prettier --write src"
   },
   "repository": {
@@ -22,12 +22,14 @@
     "bcryptjs": "^2.4.3",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
+    "pg": "^8.7.3",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
     "@types/express": "^4.17.13",
     "@types/jest": "^27.4.1",
+    "@types/pg": "^8.6.5",
     "@types/uuid": "^8.3.4",
     "jest": "^27.5.1",
     "prettier": "2.6.2",

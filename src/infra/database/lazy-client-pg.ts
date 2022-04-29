@@ -32,14 +32,16 @@ export class LazyTransactionalClientPG {
          * Start transaction if not started
          */
         try {
-            await this._client.query("BEGIN");
-            this._begined = true;
+            if (!this._begined) {
+                await this._client.query("BEGIN");
+                this._begined = true;
+            }
         } catch (error) {
             throw error;
         }
 
         try {
-            return this._client.query(queryString, args);
+            return await this._client.query(queryString, args);
         } catch (error) {
             this._failedOnQuery = true;
             throw error;

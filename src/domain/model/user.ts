@@ -52,4 +52,13 @@ export class User {
     set name(value: Name) {
         this._name = value;
     }
+
+    equal(other: User): boolean {
+        return (
+            this._uuid.equal(other._uuid) &&
+            this._username.equal(other._username) &&
+            this._passwordHash.equal(other._passwordHash) &&
+            this._name.equal(other._name)
+        );
+    }
 }

@@ -4,9 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "tsc && node ./build/index.js",
+    "start": "tsc && node ./build/src/index.js",
     "test": "tsc && jest",
-    "fmt": "prettier --write src"
+    "fmt": "prettier --write src",
+    "migrations:new": "ts-node ./scripts/generate-migration.ts",
+    "migrations:runall": "ts-node ./scripts/run-migrations.ts",
+    "migrations:rollbackall": "ts-node ./scripts/rollback-migrations.ts"
   },
   "repository": {
     "type": "git",
@@ -33,6 +36,7 @@
     "@types/uuid": "^8.3.4",
     "jest": "^27.5.1",
     "prettier": "2.6.2",
+    "ts-node": "^10.7.0",
     "typescript": "^4.6.3"
   }
 }

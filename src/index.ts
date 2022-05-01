@@ -1,16 +1,8 @@
-import express from "express";
 import dotenv from "dotenv";
-
-import { loadRoutes } from "./main/routes";
+import { App } from "./main/app";
 
 dotenv.config();
 
-const port = process.env.PORT;
+let app = new App();
 
-let app = express();
-
-app.use(loadRoutes());
-
-app.listen(port, () => {
-    console.log(`App listening on port ${port}`);
-});
+app.start();

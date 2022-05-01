@@ -70,6 +70,10 @@ export class AuthService {
 
         session.close();
     }
+
+    tryToCommit() {
+        throw new Error("Method not implemented.");
+    }
 }
 
 export class UnauthenticatedUserError extends Error {

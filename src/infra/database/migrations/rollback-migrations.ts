@@ -39,10 +39,13 @@ export class RollbackMigrations {
 
             if (alreadyApplyed) {
                 await client.query(query);
-                await client.query("DELETE FROM migrations_history WHERE migration_name=$1", [migration]);
-                console.log(`migration ${migration} unapplyed.`)
+                await client.query(
+                    "DELETE FROM migrations_history WHERE migration_name=$1",
+                    [migration]
+                );
+                console.log(`migration ${migration} unapplyed.`);
             } else {
-                console.log(`migration ${migration} already unapplyed.`)
+                console.log(`migration ${migration} already unapplyed.`);
             }
         }
 

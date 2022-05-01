@@ -20,4 +20,3 @@ test("LazyTransactionalClientPG", async () => {
 
     await pool.end();
 }, 30000);
-

@@ -41,10 +41,13 @@ export class RunMigrations {
 
             if (!alreadyApplyed) {
                 await client.query(query);
-                await client.query("INSERT INTO migrations_history (migration_name) VALUES ($1)", [migration]);
-                console.log(`migration ${migration} applyed.`)
+                await client.query(
+                    "INSERT INTO migrations_history (migration_name) VALUES ($1)",
+                    [migration]
+                );
+                console.log(`migration ${migration} applyed.`);
             } else {
-                console.log(`migration ${migration} already applyed.`)
+                console.log(`migration ${migration} already applyed.`);
             }
         }
 

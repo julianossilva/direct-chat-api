@@ -16,13 +16,13 @@ export class GenerateMigration {
         );
 
         let now = new Date();
-        let year = `${now.getUTCFullYear()}`.padStart(4, "0")
-        let month = `${now.getUTCMonth()}`.padStart(2, "0")
-        let day = `${now.getUTCDate()}`.padStart(2, "0")
-        let hour = `${now.getUTCHours()}`.padStart(2, "0")
-        let minute = `${now.getUTCMinutes()}`.padStart(2, "0")
-        let sec = `${now.getUTCSeconds()}`.padStart(2, "0")
-        let milli = `${now.getUTCMilliseconds()}`.padStart(3, "0")
+        let year = `${now.getUTCFullYear()}`.padStart(4, "0");
+        let month = `${now.getUTCMonth()}`.padStart(2, "0");
+        let day = `${now.getUTCDate()}`.padStart(2, "0");
+        let hour = `${now.getUTCHours()}`.padStart(2, "0");
+        let minute = `${now.getUTCMinutes()}`.padStart(2, "0");
+        let sec = `${now.getUTCSeconds()}`.padStart(2, "0");
+        let milli = `${now.getUTCMilliseconds()}`.padStart(3, "0");
         let timestamp = `${year}-${month}-${day}_${hour}-${minute}-${sec}.${milli}`;
 
         let migrationsDir = path.resolve(

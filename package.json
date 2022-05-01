@@ -6,6 +6,7 @@
   "scripts": {
     "start": "tsc && node ./build/src/index.js",
     "test": "tsc && jest",
+    "test:integration":"tsc && jest --runInBand --config=./jest.int.config.js ",
     "fmt": "prettier --write src",
     "migrations:new": "ts-node ./scripts/generate-migration.ts",
     "migrations:runall": "ts-node ./scripts/run-migrations.ts",
@@ -34,9 +35,11 @@
     "@types/express": "^4.17.13",
     "@types/jest": "^27.4.1",
     "@types/pg": "^8.6.5",
+    "@types/supertest": "^2.0.12",
     "@types/uuid": "^8.3.4",
     "jest": "^27.5.1",
     "prettier": "2.6.2",
+    "supertest": "^6.2.3",
     "ts-node": "^10.7.0",
     "typescript": "^4.6.3"
   }

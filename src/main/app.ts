@@ -3,10 +3,14 @@ import { AppContext } from "./app-context";
 import { loadRoutes } from "./http/routes";
 
 export class App {
-    public httpServer: express.Express = express();
-    public appContext = new AppContext();
+    public httpServer: express.Express;
+    public appContext: AppContext;
 
-    constructor() {}
+    constructor() {
+        this.httpServer = express();
+        this.appContext = new AppContext();
+        loadRoutes(this.httpServer, this.appContext);
+    }
 
     start() {
         this.startHTTPServer();
@@ -14,7 +18,7 @@ export class App {
 
     startHTTPServer() {
         const port = process.env.PORT;
-        loadRoutes(this.httpServer, this.appContext);
+
         this.httpServer.listen(port, () => {
             console.log(`App listening on port ${port}`);
         });

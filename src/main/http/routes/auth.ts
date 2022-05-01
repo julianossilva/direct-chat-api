@@ -11,7 +11,7 @@ export const registerAuthRoutes = (
     /**
      * Signup
      */
-    express.get("/signup", async (req, res) => {
+    express.post("/signup", async (req, res) => {
         try {
             let schema = joi.object({
                 username: joi.string().min(4),
@@ -19,7 +19,7 @@ export const registerAuthRoutes = (
                 name: joi.string(),
             });
 
-            const value = await schema.validate(req.body);
+            const value = schema.validate(req.body);
             if (value.error) {
                 res.status(400).send({errors: value.error})
             }

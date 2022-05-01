@@ -109,9 +109,6 @@ test("Can create and update an user", async () => {
         throw new Error("user not finded.");
     }
 
-    console.log(findedUser);
-    console.log(updatedUser);
-
     expect(findedUser.equal(updatedUser)).toBe(true);
     await lazyClient.close();
 });

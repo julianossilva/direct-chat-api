@@ -31,7 +31,7 @@ module.exports = {
   // ],
 
   // Indicates which provider should be used to instrument code for coverage
-  coverageProvider: "v8",
+  coverageProvider: "babel",
 
   // A list of reporter names that Jest uses when writing coverage reports
   // coverageReporters: [
@@ -151,8 +151,8 @@ module.exports = {
   //   "**/?(*.)+(spec|test).[tj]s?(x)"
   // ],
   testMatch: [
-    "**/__tests__/**/*.js?(x)",
-    "**/?(*.)+(spec|test).js?(x)"
+    "**/__tests__/**/*.ts?(x)",
+    "**/?(*.)+(spec|test).ts?(x)"
   ],
 
   // An array of regexp pattern strings that are matched against all test paths, matched tests are skipped

@@ -9,6 +9,8 @@ test("POST /signup", async () => {
 
     let app = new App();
 
+    await app.appContext.pool.query("TRUNCATE TABLE users");
+
     await supertest(app.httpServer)
         .post("/signup")
         .send({
@@ -17,4 +19,7 @@ test("POST /signup", async () => {
             name: "Juliano",
         })
         .expect(201)
+        
+
+    await app.appContext.shutdown();
 });

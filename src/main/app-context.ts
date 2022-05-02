@@ -32,4 +32,8 @@ export class AppContext {
     private createUUIDGenerator() {
         return createUUIDGenerator();
     }
+
+    async shutdown(){
+        await this.pool.end()
+    }
 }

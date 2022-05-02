@@ -21,11 +21,10 @@ export const registerAuthRoutes = (
 
             const value = schema.validate(req.body);
             if (value.error) {
-                res.status(400).send({errors: value.error})
+                res.status(400).send({error: "Input error"})
             }
 
             let transactionContext = createTransactionContext(appContext);
-
             await createAuthService(appContext, transactionContext).signup({
                 username: req.body.username,
                 password: req.body.password,
@@ -33,7 +32,7 @@ export const registerAuthRoutes = (
             });
 
             await transactionContext.closeTransaction();
-            res.status(200).send();
+            res.status(201).send();
         } catch (error) {
             res.status(500).send();
         }

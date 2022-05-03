@@ -1,7 +1,7 @@
 import path from "path";
 import fs from "fs";
 import { Client } from "pg";
-import { createMigrationsTableIfNotExist } from "./utils";
+import { createMigrationsTableIfNotExist } from "../utils";
 
 const MIGRATIONS_DIR_NAME = "migrations";
 

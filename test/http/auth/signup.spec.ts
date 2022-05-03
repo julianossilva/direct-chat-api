@@ -1,5 +1,6 @@
 import dotenv from "dotenv";
 import supertest from "supertest";
+import { CleanDatabase } from "../../../src/infra/database/command/clean-database";
 import { App } from "../../../src/main/app";
 
 dotenv.config();
@@ -9,8 +10,7 @@ test("POST /signup", async () => {
 
     let app = new App();
 
-    await app.appContext.pool.query("TRUNCATE TABLE users");
-
+    await new CleanDatabase(app.appContext.pool).run()
     await supertest(app.httpServer)
         .post("/signup")
         .send({

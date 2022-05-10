@@ -18,9 +18,7 @@ beforeEach(async () => {
     await pool.end()
 });
 
-test("POST /signup", async () => {
-    dotenv.config();
-
+test("POST /signup | create user with success", async () => {
     let app = new App();
 
     await supertest(app.httpServer)

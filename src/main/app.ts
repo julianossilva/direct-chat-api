@@ -8,7 +8,7 @@ export class App {
 
     constructor() {
         this.httpServer = express();
-        this.httpServer.use(express.json())
+        this.httpServer.use(express.json());
         this.appContext = new AppContext();
         loadRoutes(this.httpServer, this.appContext);
     }

@@ -13,7 +13,7 @@ export function loadRoutes(express: express.Express, appContext: AppContext) {
                 transactionContext
             );
 
-            let message = await helloService.sayHello(req.params.name);
+            let message = await helloService.handle(req.params.name);
 
             transactionContext.closeTransaction();
 

@@ -1,8 +1,7 @@
-
 export class HelloService {
     constructor() {}
 
-    async sayHello(name: string) {
+    async handle(name: string) {
         return `Hello ${name}`;
     }
 }

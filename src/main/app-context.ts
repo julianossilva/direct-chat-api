@@ -1,11 +1,14 @@
 import { Pool } from "pg";
 import { HashGenerator } from "../application/hash-generator";
 import { UUIDGenerator } from "../application/uuid-generator";
+import { TokenGenerator } from "../infra/token-generator";
+import { TokenGeneratorHMACAndSHA256 } from "../infra/token-generator-hmac-sha256";
 import { createHashGenerator } from "./services/create-hash-generator";
 import { createUUIDGenerator } from "./services/create-uuid-generator";
 
 export class AppContext {
     public pool: Pool;
+    public tokenGenerator: TokenGenerator;
     public hashGenerator: HashGenerator;
     public uuidGenerator: UUIDGenerator;
 
@@ -13,6 +16,11 @@ export class AppContext {
         this.pool = this.createPool();
         this.hashGenerator = this.createHashGenerator();
         this.uuidGenerator = this.createUUIDGenerator();
+        this.tokenGenerator = this.createTokenGenerator();
+    }
+
+    createTokenGenerator(): TokenGenerator {
+        return new TokenGeneratorHMACAndSHA256(process.env.AppSecret ?? "");
     }
 
     private createPool() {
@@ -33,7 +41,7 @@ export class AppContext {
         return createUUIDGenerator();
     }
 
-    async shutdown(){
-        await this.pool.end()
+    async shutdown() {
+        await this.pool.end();
     }
 }

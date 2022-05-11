@@ -48,7 +48,6 @@ export const registerAuthRoutes = (
     express.post("/signin", async (req, res) => {
         try {
             let transactionContext = createTransactionContext(appContext);
-            let sessionManager = {} as SessionManager;
             let token = await createSigninService(
                 appContext,
                 transactionContext
@@ -69,11 +68,11 @@ export const registerAuthRoutes = (
     /**
      * Signout
      */
-    express.post("signout", async (req, res) => {
+    express.post("/signout", async (req, res) => {
         try {
             let authHeader = req.header("Authorization");
             if (authHeader && authHeader.length > 0) {
-                let token = authHeader[0];
+                let token = authHeader[0].replace("Bearer ", "");
                 let transactionContext = createTransactionContext(appContext);
                 await createSignoutService(
                     appContext,
@@ -81,6 +80,8 @@ export const registerAuthRoutes = (
                 ).handle(token);
                 await transactionContext.closeTransaction();
                 res.status(201).send();
+            } else {
+                res.status(400).send({ error: "Input error" });
             }
         } catch (error) {
             res.status(500).send();

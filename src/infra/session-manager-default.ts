@@ -49,7 +49,13 @@ export class SessionManagerDefault implements SessionManager {
         let id = this.tokenGenerator.parse(token);
         let session = await this.sessionStore.find(id);
 
+        
+
         if (!session) {
+            return null;
+        }
+
+        if (session.expiration.getTime() < (new Date()).getTime()) {
             return null;
         }
 

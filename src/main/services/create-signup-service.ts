@@ -1,6 +1,6 @@
 import { SignupService } from "../../application/service/signup";
 import { TransactionContext } from "../../infra/transaction-context";
-import { AppContext } from "../app-context";
+import { AppContext } from "../../application/app-context";
 
 export function createSignupService(
     appContext: AppContext,
@@ -9,7 +9,6 @@ export function createSignupService(
     return new SignupService(
         appContext.hashGenerator,
         appContext.uuidGenerator,
-        transactionContext.userRepository,
-        transactionContext.sessionManager
+        transactionContext.userRepository
     );
 }

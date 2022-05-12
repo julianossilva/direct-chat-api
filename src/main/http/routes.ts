@@ -1,6 +1,6 @@
 import express from "express";
 import { createTransactionContext } from "../../infra/transaction-context";
-import { AppContext } from "../app-context";
+import { AppContext } from "../../application/app-context";
 import { createHelloService } from "../services/create-hello-service";
 import { registerAuthRoutes } from "./routes/auth";
 

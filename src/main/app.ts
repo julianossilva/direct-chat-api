@@ -1,6 +1,7 @@
 import express from "express";
-import { AppContext } from "./app-context";
+import { AppContext } from "../application/app-context";
 import { loadRoutes } from "./http/routes";
+import serviceList from "./service-factory-list";
 
 export class App {
     public httpServer: express.Express;
@@ -9,7 +10,7 @@ export class App {
     constructor() {
         this.httpServer = express();
         this.httpServer.use(express.json());
-        this.appContext = new AppContext();
+        this.appContext = new AppContext(serviceList);
         loadRoutes(this.httpServer, this.appContext);
     }
 

@@ -18,8 +18,7 @@ export class SignupService {
     constructor(
         private hashGenerator: HashGenerator,
         private uuidGenerator: UUIDGenerator,
-        private userRepository: UserRepository,
-        private sessionManager: SessionManager
+        private userRepository: UserRepository
     ) {}
 
     async handle(userData: NewUserDTO): Promise<void> {

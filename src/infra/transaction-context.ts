@@ -1,7 +1,7 @@
 import { UserRepository } from "../domain/repository/user";
 import { LazyTransactionalClientPG } from "./database/lazy-client-pg";
 import { UserRepositoryPG } from "./database/repository/user-repository-pg";
-import { AppContext } from "../main/app-context";
+import { AppContext } from "../application/app-context";
 import { SessionManager } from "../application/session-manager";
 import { SessionManagerDefault } from "./session-manager-default";
 import { SessionStore } from "../application/session-store";

@@ -1,18 +1,37 @@
 import { Pool } from "pg";
-import { HashGenerator } from "../application/hash-generator";
-import { UUIDGenerator } from "../application/uuid-generator";
+import { HashGenerator } from "./hash-generator";
+import { UUIDGenerator } from "./uuid-generator";
 import { TokenGenerator } from "../infra/token-generator";
 import { TokenGeneratorHMACAndSHA256 } from "../infra/token-generator-hmac-sha256";
-import { createHashGenerator } from "./services/create-hash-generator";
-import { createUUIDGenerator } from "./services/create-uuid-generator";
+import { createHashGenerator } from "../main/services/create-hash-generator";
+import { createUUIDGenerator } from "../main/services/create-uuid-generator";
+import { TransactionContext } from "../infra/transaction-context";
+import { SignupService } from "./service/signup";
+import { SigninService } from "./service/signin";
+import { SignoutService } from "./service/signout";
+import { UserDataService } from "./service/get-current-user-data";
+
+export type ServiceFactory<T> = (
+    appContext: AppContext,
+    transactionContext: TransactionContext
+) => T;
+
+export type ServiceFactoryList = {
+    createUserDataService: ServiceFactory<UserDataService>;
+    createSignupService: ServiceFactory<SignupService>;
+    createSigninService: ServiceFactory<SigninService>;
+    createSignoutService: ServiceFactory<SignoutService>;
+};
 
 export class AppContext {
     public pool: Pool;
     public tokenGenerator: TokenGenerator;
     public hashGenerator: HashGenerator;
     public uuidGenerator: UUIDGenerator;
+    public serviceFactoryList: ServiceFactoryList;
 
-    constructor() {
+    constructor(serviceFactoryList: ServiceFactoryList) {
+        this.serviceFactoryList = serviceFactoryList;
         this.pool = this.createPool();
         this.hashGenerator = this.createHashGenerator();
         this.uuidGenerator = this.createUUIDGenerator();

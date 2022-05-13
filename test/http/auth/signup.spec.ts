@@ -1,44 +1,38 @@
 import dotenv from "dotenv";
 import { Pool } from "pg";
 import supertest from "supertest";
-import { Username } from "../../../src/domain/model/username";
-import { CleanDatabase } from "../../../src/infra/database/command/clean-database";
-import { createTransactionContext } from "../../../src/infra/transaction-context";
+import { AppContext } from "../../../src/application/app-context";
+import { SignoutService } from "../../../src/application/service/signout";
+import {
+    NewUserDTO,
+    SignupService,
+} from "../../../src/application/service/signup";
+import { TransactionContext } from "../../../src/infra/transaction-context";
 import { App } from "../../../src/main/app";
 
 dotenv.config();
 
-beforeEach(async () => {
-    let pool = new Pool({
-        user: process.env.DB_USER,
-        host: process.env.DB_HOST,
-        database: process.env.DB_NAME,
-        password: process.env.DB_PASSWORD,
-        port: Number(process.env.DB_PORT),
-    });
-    await new CleanDatabase(pool).run();
-    await pool.end();
-});
-
-test("POST /signup | create user with success", async () => {
+test("POST /signup | signup with success", async () => {
     let app = new App();
 
-    await supertest(app.httpServer)
+    function fakeFactory(
+        appContext: AppContext,
+        transactionContext: TransactionContext
+    ) {
+        let service: SignupService = Object.create(SignupService.prototype);
+        service.handle = async (token: NewUserDTO): Promise<void> => {};
+        return service;
+    }
+    app.appContext.serviceFactoryList.createSignupService = fakeFactory;
+
+    let res = await supertest(app.httpServer)
         .post("/signup")
         .send({
-            username: "juliano",
-            password: "12345678",
-            name: "Juliano",
+            username: "myusername",
+            password: "mypassword",
+            name: "myname",
         })
         .expect(201);
 
-    let transactionContext = createTransactionContext(app.appContext);
-
-    let user = await transactionContext.userRepository.findByUsername(new Username("juliano"));
-    
-    expect(user).not.toBeNull()
-
-    await transactionContext.closeTransaction();
-
-    await app.appContext.shutdown();
+    app.appContext.shutdown();
 });

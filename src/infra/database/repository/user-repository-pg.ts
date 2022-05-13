@@ -7,6 +7,7 @@ import { UserRepository } from "../../../domain/repository/user";
 import { LazyTransactionalClientPG } from "../lazy-client-pg";
 
 export class UserRepositoryPG implements UserRepository {
+    private cached: User[] = [];
     constructor(private lazyClient: LazyTransactionalClientPG) {}
 
     async findByUsername(username: Username): Promise<User | null> {
@@ -19,12 +20,23 @@ export class UserRepositoryPG implements UserRepository {
             return null;
         }
 
-        return new User(
+        let user = new User(
             new UserID(res.rows[0].id),
             new Username(res.rows[0].username),
             new PasswordHash(res.rows[0].password_hash),
             new Name(res.rows[0].name)
         );
+
+        let i = this.cached.findIndex((e) => e.equal(user));
+        if (i >= 0) {
+            this.cached[i].username = user.username;
+            this.cached[i].passwordHash = user.passwordHash;
+            this.cached[i].name = user.name;
+            return this.cached[i];
+        } else {
+            this.cached.push(user);
+            return user;
+        }
     }
 
     async findByUserID(userID: UserID): Promise<User | null> {
@@ -37,12 +49,23 @@ export class UserRepositoryPG implements UserRepository {
             return null;
         }
 
-        return new User(
+        let user = new User(
             new UserID(res.rows[0].id),
             new Username(res.rows[0].username),
             new PasswordHash(res.rows[0].password_hash),
             new Name(res.rows[0].name)
         );
+
+        let i = this.cached.findIndex((e) => e.equal(user));
+        if (i >= 0) {
+            this.cached[i].username = user.username;
+            this.cached[i].passwordHash = user.passwordHash;
+            this.cached[i].name = user.name;
+            return this.cached[i];
+        } else {
+            this.cached.push(user);
+            return user;
+        }
     }
 
     async update(user: User): Promise<void> {
@@ -55,6 +78,13 @@ export class UserRepositoryPG implements UserRepository {
                 user.name.name,
             ]
         );
+
+        let existent = await this.findByUserID(user.userID);
+        if (existent) {
+            existent.username = user.username;
+            existent.name = user.name;
+            existent.passwordHash = user.passwordHash;
+        }
     }
 
     async create(user: User): Promise<void> {
@@ -67,11 +97,15 @@ export class UserRepositoryPG implements UserRepository {
                 user.name.name,
             ]
         );
+        this.cached.push(user);
     }
 
     async delete(user: User): Promise<void> {
         await this.lazyClient.query("DELETE FROM users WHERE id = $1", [
             user.userID.uuid,
         ]);
+        this.cached = this.cached.filter(
+            (e) => e.userID.uuid != user.userID.uuid
+        );
     }
 }
